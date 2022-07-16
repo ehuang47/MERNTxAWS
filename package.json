@@ -1,0 +1,26 @@
+{
+	"name": "merntxaws",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+		"dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+		"inst-all": "cd server && npm i && cd ../client && npm i",
+		"resetdb": "cd server && npm run seed"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ehuang47/MERNTxAWS.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ehuang47/MERNTxAWS/issues"
+	},
+	"homepage": "https://github.com/ehuang47/MERNTxAWS#readme",
+	"devDependencies": {
+		"concurrently": "^7.2.2"
+	}
+}

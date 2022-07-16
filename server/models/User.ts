@@ -1,18 +1,8 @@
 import mongoose from "mongoose";
+import { UserInterface, UserDocInterface, UserModelInterface } from "../types";
+// import * as models from "../types";
+
 const Schema = mongoose.Schema;
-
-interface UserInterface {
-  profile: string;
-  name: string;
-  email: string;
-  phone: string;
-}
-
-interface UserModelInterface extends mongoose.Model<UserDocInterface> {
-  build(user: UserInterface): UserDocInterface;
-}
-
-interface UserDocInterface extends mongoose.Document, UserInterface { }
 
 const userSchema = new Schema({
   profile: String,
@@ -26,5 +16,4 @@ userSchema.statics.build = async (user: UserInterface) => {
 };
 
 const User = mongoose.model<UserDocInterface, UserModelInterface>("User", userSchema, "User");
-User.build({ profile: '', name: '', email: '', phone: '' });
 export default User;
