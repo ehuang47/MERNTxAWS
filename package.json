@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
-		"dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+		"dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
 		"inst-all": "cd server && npm i && cd ../client && npm i",
 		"resetdb": "cd server && npm run seed"
 	},
