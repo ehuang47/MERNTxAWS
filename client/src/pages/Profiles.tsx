@@ -1,11 +1,10 @@
 import { AddProfile, ProfileList } from "../components/Profiles";
-
-const Profiles = (): JSX.Element => {
+import { ADD_PROFILE } from "../redux/constant";
+export default function Profiles(): JSX.Element {
 	return (
 		<>
-			<AddProfile actionType={"ADD"} />
-			<ProfileList actionType={"UPDATE"} />
+			<AddProfile actionType={ADD_PROFILE} />
+			<ProfileList />
 		</>
 	);
-};
-export default Profiles;
+}

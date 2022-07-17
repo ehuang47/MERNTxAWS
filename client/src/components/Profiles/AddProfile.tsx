@@ -1,6 +1,7 @@
 import { FormEvent, MouseEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { ReduxAction, UserInterface } from "../../types";
+import { ReduxAction, UserInterface, UserPayload } from "../../types";
 import { ReInputField } from "../Reusable";
 
 interface Props {
@@ -16,6 +17,7 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 	};
 
 	const [inputs, setInputs] = useState(defaultInputs);
+	const dispatch = useDispatch();
 
 	const handleChange = (e: FormEvent<HTMLInputElement>): void => {
 		const target = e.target as HTMLInputElement;
@@ -27,7 +29,6 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 			case "profile":
 				// isValid = /^[a-zA-Z0-9]+\.((png)|(jpeg)|(jpg))$/g.test(fieldValue);
 				isValid = /.+\.((png)|(jpeg)|(jpg))$/g.test(fieldValue);
-				console.log(isValid);
 				break;
 			case "name":
 				isValid = /^[a-zA-Z]+$/g.test(fieldValue);
@@ -55,8 +56,8 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 				return map;
 			}, {} as any);
 
-			const action: ReduxAction = { type: actionType, payload };
-			console.log(action, typeof action);
+			const action: ReduxAction<UserInterface> = { type: actionType, payload };
+			console.log(action);
 			// do: dispatch add action to redux
 
 			// setInputs(defaultInputs);

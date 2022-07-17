@@ -39,3 +39,10 @@ export const handleRemoveProfile = async (req: Request, res: Response) => {
     res.status(200).json({ success: true, message: "Successfully removed user profile." });
   } catch (e) { handleError("handleRemoveProfile", 400, e as Error, res); }
 };
+
+export const handleClearProfiles = async (req: Request, res: Response) => {
+  try {
+    await User.deleteMany();
+    res.status(200).json({ success: true, message: "Successfully cleared all user profiles." });
+  } catch (e) { handleError("handleClearProfiles", 400, e as Error, res); }
+};

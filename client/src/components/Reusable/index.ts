@@ -1,3 +1,3 @@
 import ReInputField from "./ReInputField";
-
-export { ReInputField };
+import ReButton from "./ReButton";
+export { ReInputField, ReButton };

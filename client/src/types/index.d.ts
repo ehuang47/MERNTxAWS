@@ -12,7 +12,10 @@ export interface UserInterface {
   phone: string;
 }
 
-export interface ReduxAction {
+interface UserPayload extends UserInterface {
+  id: string;
+}
+export interface ReduxAction<Payload> {
   type: string;
-  payload: object;
+  payload: Payload;
 }

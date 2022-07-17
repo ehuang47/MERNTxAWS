@@ -1,3 +1,3 @@
 import * as ProfilesComponents from "./Profiles";
-import * as SharedComponents from "./Reusable";
-export { ProfilesComponents, SharedComponents };
+import * as ReusableComponents from "./Reusable";
+export { ProfilesComponents, ReusableComponents };
