@@ -1,43 +1,50 @@
 import { UserPayload } from "../../types";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { profileActions } from "../../redux/actions";
-import { UPDATE_PROFILE, DELETE_PROFILE } from "../../redux/constant";
+import { UPDATE_PROFILE } from "../../redux/constant";
 import AddProfile from "./AddProfile";
+import { TypedDispatch, useTypedDispatch, useTypedSelector } from "../../redux/store";
 // const {} = profileActions
-interface Props extends UserPayload {}
+interface Props {
+	id: string;
+	updateSelected: (selected: boolean, id: string) => void;
+}
 
-export default function ProfileCard({
-	id,
-	profile,
-	name,
-	email,
-	phone,
-}: Props): JSX.Element {
+export default function ProfileCard({ id, updateSelected }: Props): JSX.Element {
 	const [editing, setEditing] = useState(false);
-	const dispatch = useDispatch();
+	const [selected, setSelected] = useState(false);
 
-	const toggleEditing = () => setEditing((prev) => !prev);
+	const profile: UserPayload = useTypedSelector(
+		(state: any) => state.profiles.profileList[id]
+	);
+	const dispatch: TypedDispatch = useTypedDispatch();
+
+	const toggleEditing = (): void => setEditing((prev) => !prev);
+	const toggleSelected = (): void => {
+		updateSelected(!selected, id);
+		setSelected((prev) => !prev);
+	};
 	const deleteProfile = (): void => {
-		// do: dispatch delete action
+		dispatch(profileActions.deleteProfiles([id]));
 	};
 
 	if (editing)
 		return (
 			<div>
-				<button onClick={toggleEditing}>Cancel</button>
-				<AddProfile actionType={UPDATE_PROFILE} />;
+				<button onClick={toggleEditing}>Back</button>
+				<AddProfile actionType={UPDATE_PROFILE} profileID={id} />
 			</div>
 		);
 
 	return (
 		<div>
+			<button onClick={toggleSelected}>{selected ? "Unselect" : "Select"}</button>
 			<button onClick={toggleEditing}>Edit</button>
 			<button onClick={deleteProfile}>Delete</button>
-			<p>{profile}</p>
-			<p>{name}</p>
-			<p>{email}</p>
-			<p>{phone}</p>
+			<p>{profile.profile}</p>
+			<p>{profile.name}</p>
+			<p>{profile.phone}</p>
+			<p>{profile.email}</p>
 		</div>
 	);
 }

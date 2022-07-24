@@ -17,32 +17,23 @@ export const handleGetUserProfiles = async (req: Request, res: Response) => {
 
 export const handleAddUserProfile = async (req: Request, res: Response) => {
   try {
-    const newUser = User.build(req.body);
+    const newUser = await User.build(req.body);
     res.status(200).json({ success: true, message: "Successfully added new user profile.", data: newUser });
   } catch (e) { handleError("handleAddUserProfile", 400, e as Error, res); }
 };
 
 export const handleUpdateProfile = async (req: Request, res: Response) => {
   try {
-    const { uid, profile, name, email, string } = req.body;
-    const newUser = await User.findByIdAndUpdate(uid, { $set: { profile, name, email, string } }, { new: true });
+    const { _id, profile, name, email, phone } = req.body;
+    const newUser = await User.findByIdAndUpdate(_id, { $set: { profile, name, email, phone } }, { new: true });
     res.status(200).json({ success: true, message: "Successfully updated user profile.", data: newUser });
   } catch (e) { handleError("handleUpdateProfile", 400, e as Error, res); }
 };
 
-export const handleRemoveProfile = async (req: Request, res: Response) => {
+export const handleRemoveProfiles = async (req: Request, res: Response) => {
   try {
-    const { uid } = req.body;
-    // do: check what this function is returning
-    const result = await User.findByIdAndDelete(uid);
-    console.log(result);
-    res.status(200).json({ success: true, message: "Successfully removed user profile." });
-  } catch (e) { handleError("handleRemoveProfile", 400, e as Error, res); }
-};
-
-export const handleClearProfiles = async (req: Request, res: Response) => {
-  try {
-    await User.deleteMany();
-    res.status(200).json({ success: true, message: "Successfully cleared all user profiles." });
-  } catch (e) { handleError("handleClearProfiles", 400, e as Error, res); }
+    // do: check what this function is returning, change to delete many
+    await User.deleteMany({ _id: { $in: req.body } });
+    res.status(200).json({ success: true, message: "Successfully removed user profiles." });
+  } catch (e) { handleError("handleRemoveProfiles", 400, e as Error, res); }
 };

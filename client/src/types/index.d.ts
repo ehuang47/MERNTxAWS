@@ -13,7 +13,7 @@ export interface UserInterface {
 }
 
 interface UserPayload extends UserInterface {
-  id: string;
+  _id: string;
 }
 export interface ReduxAction<Payload> {
   type: string;

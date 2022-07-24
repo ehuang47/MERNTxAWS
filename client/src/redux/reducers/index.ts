@@ -1,4 +1,4 @@
-import profiles from "./profiles";
+import profiles from "./profilesReducer";
 import { combineReducers } from "redux";
 import { DELETE_SESSION } from "../constant";
 import { ReduxAction } from "../../types";

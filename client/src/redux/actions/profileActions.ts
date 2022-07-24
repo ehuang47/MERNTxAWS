@@ -1,7 +1,49 @@
-import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, CLEAR_PROFILES } from "../constant";
+import { LOADING, SUCCESS, ERROR, SERVER_URL } from "../constant";
+import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILES } from "../constant";
+import axios from "axios";
+import { TypedDispatch } from "../store";
+import { UserInterface, UserPayload } from "../../types";
 
-export const getProfiles = () => async () => {
-  // do async things to get data
+const createAction = (type: string, payload: any) => ({ type, payload });
 
-  // return { type, data };
+// do: onclick for conditionally rendered error messages to reset the message to indicate the user has seen it
+
+const dispatchAfterRequest = (res: object & any, dispatch: TypedDispatch, actionType: string, dispatchData: any, customErrorMsg: string): void => {
+  const { success, message, data, error } = res.data;
+  if (success) {
+    dispatch(createAction(SUCCESS, message));
+    dispatch(createAction(actionType, dispatchData ? dispatchData : data));
+    console.log(data, message);
+  } else {
+    dispatch(createAction(ERROR, customErrorMsg));
+    console.error(error);
+  }
+};
+
+export const getProfiles = () => async (dispatch: TypedDispatch) => {
+  dispatch(createAction(LOADING, "Loading all user profiles."));
+
+  const res: object & any = await axios.get(`${SERVER_URL}/user/profiles`);
+  dispatchAfterRequest(res, dispatch, GET_PROFILES, null, "We encountered an issue while loading all user profiles.");
+};
+
+export const addProfile = (payload: UserInterface) => async (dispatch: TypedDispatch) => {
+  dispatch(createAction(LOADING, "Adding user profile."));
+
+  const res: object & any = await axios.post(`${SERVER_URL}/user/profiles`, payload);
+  dispatchAfterRequest(res, dispatch, ADD_PROFILE, null, "We encountered an issue while adding the user profile.");
+};
+
+export const updateProfile = (payload: UserPayload) => async (dispatch: TypedDispatch) => {
+  dispatch(createAction(LOADING, "Updating user profile."));
+
+  const res: object & any = await axios.put(`${SERVER_URL}/user/profiles`, payload);
+  dispatchAfterRequest(res, dispatch, UPDATE_PROFILE, null, "We encountered an issue while updating the user profile.");
+};
+
+export const deleteProfiles = (payload: string[]) => async (dispatch: TypedDispatch) => {
+  dispatch(createAction(LOADING, "Deleting user profile."));
+
+  const res: object & any = await axios.delete(`${SERVER_URL}/user/profiles`, { data: payload });
+  dispatchAfterRequest(res, dispatch, DELETE_PROFILES, payload, "We encountered an issue while deleting the user profile.");
 };

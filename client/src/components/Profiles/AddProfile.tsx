@@ -1,14 +1,17 @@
-import { FormEvent, MouseEvent, useState } from "react";
-import { useDispatch } from "react-redux";
+import { FormEventHandler, MouseEventHandler, useState } from "react";
+import { profileActions } from "../../redux/actions";
+import { ADD_PROFILE } from "../../redux/constant";
+import { TypedDispatch, useTypedDispatch } from "../../redux/store";
 
-import { ReduxAction, UserInterface, UserPayload } from "../../types";
+import { UserInterface } from "../../types";
 import { ReInputField } from "../Reusable";
 
 interface Props {
 	actionType: string;
+	profileID?: string;
 }
 
-export default function AddProfile({ actionType }: Props): JSX.Element {
+export default function AddProfile({ actionType, profileID }: Props): JSX.Element {
 	const defaultInputs = {
 		profile: { value: "", valid: true },
 		name: { value: "", valid: true },
@@ -17,10 +20,10 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 	};
 
 	const [inputs, setInputs] = useState(defaultInputs);
-	const dispatch = useDispatch();
+	const dispatch: TypedDispatch = useTypedDispatch();
 
-	const handleChange = (e: FormEvent<HTMLInputElement>): void => {
-		const target = e.target as HTMLInputElement;
+	const handleChange: FormEventHandler<HTMLFormElement> = (e) => {
+		const target: HTMLInputElement = e.target as HTMLInputElement;
 		const fieldName: string = target.name;
 		const fieldValue: string = target.value;
 
@@ -47,7 +50,7 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 		});
 	};
 
-	const handleSubmit = (e: MouseEvent<HTMLButtonElement>): void => {
+	const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.preventDefault();
 
 		if (Object.values(inputs).every(({ valid }) => valid)) {
@@ -56,9 +59,11 @@ export default function AddProfile({ actionType }: Props): JSX.Element {
 				return map;
 			}, {} as any);
 
-			const action: ReduxAction<UserInterface> = { type: actionType, payload };
-			console.log(action);
-			// do: dispatch add action to redux
+			dispatch(
+				actionType === ADD_PROFILE
+					? profileActions.addProfile(payload)
+					: profileActions.updateProfile({ ...payload, _id: profileID as string })
+			);
 
 			// setInputs(defaultInputs);
 		}
