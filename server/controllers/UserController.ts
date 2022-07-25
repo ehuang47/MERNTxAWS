@@ -1,5 +1,6 @@
 import { User } from "../models";
 import { Request, Response } from "express";
+import { uploadFile } from "../config";
 
 const handleError = (location: string, statusCode: number, error: Error, res: Response) => {
   const { message } = error;
@@ -17,8 +18,11 @@ export const handleGetUserProfiles = async (req: Request, res: Response) => {
 
 export const handleAddUserProfile = async (req: Request, res: Response) => {
   try {
+    console.log(req.file);
     const newUser = await User.build(req.body);
-    res.status(200).json({ success: true, message: "Successfully added new user profile.", data: newUser });
+    const profile = await uploadFile(req.file, newUser._id);
+    const updatedUser = await User.findByIdAndUpdate(newUser._id, { $set: { profile } }, { new: true });
+    res.status(200).json({ success: true, message: "Successfully added new user profile.", data: updatedUser });
   } catch (e) { handleError("handleAddUserProfile", 400, e as Error, res); }
 };
 

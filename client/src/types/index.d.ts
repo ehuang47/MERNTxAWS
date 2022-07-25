@@ -6,7 +6,7 @@
 // import * as m from "SomeModule";
 
 export interface UserInterface {
-  profile: string;
+  profile: string | FormData;
   name: string;
   email: string;
   phone: string;

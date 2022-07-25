@@ -1,5 +1,3 @@
-export const SERVER_URL = "http://localhost:3001";
-
 export const LOADING = "LOADING", SUCCESS = "SUCCESS", ERROR = "ERROR";
 
 export const GET_PROFILES = "GET_PROFILES",

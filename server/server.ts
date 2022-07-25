@@ -1,4 +1,5 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Express } from 'express';
+import multer, { Multer } from "multer";
 import path from "path";
 import cors from "cors";
 import { config } from "dotenv";
@@ -6,8 +7,10 @@ config({ path: path.resolve(__dirname, '../.env') });
 
 import routes from "./routes";
 const app: Express = express();
+const upload: Multer = multer();
 
 app.use(express.json());
+app.use(upload.single('profile'));
 app.use(cors({
   origin: "http://localhost:3000"
 }));

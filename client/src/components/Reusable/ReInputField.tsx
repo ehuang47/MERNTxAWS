@@ -1,8 +1,9 @@
 interface Props {
 	id: string;
 	type: string;
+	accept?: string;
 	name: string;
-	value: string;
+	value: any;
 	valid: boolean;
 	onChange: (e: any) => void;
 }

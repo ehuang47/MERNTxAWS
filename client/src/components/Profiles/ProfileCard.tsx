@@ -4,7 +4,6 @@ import { profileActions } from "../../redux/actions";
 import { UPDATE_PROFILE } from "../../redux/constant";
 import AddProfile from "./AddProfile";
 import { TypedDispatch, useTypedDispatch, useTypedSelector } from "../../redux/store";
-// const {} = profileActions
 interface Props {
 	id: string;
 	updateSelected: (selected: boolean, id: string) => void;
@@ -41,7 +40,11 @@ export default function ProfileCard({ id, updateSelected }: Props): JSX.Element 
 			<button onClick={toggleSelected}>{selected ? "Unselect" : "Select"}</button>
 			<button onClick={toggleEditing}>Edit</button>
 			<button onClick={deleteProfile}>Delete</button>
-			<p>{profile.profile}</p>
+			<img
+				style={{ width: "50%", height: "50%" }}
+				src={profile.profile as string}
+				alt="Not Yet Uploaded"
+			></img>
 			<p>{profile.name}</p>
 			<p>{profile.phone}</p>
 			<p>{profile.email}</p>

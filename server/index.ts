@@ -1,5 +1,5 @@
 import app from "./server";
-import connection from "./config/db";
+import { connection } from "./config";
 
 const { PORT } = process.env;
 connection.once('open', () => {
