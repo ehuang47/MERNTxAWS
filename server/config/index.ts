@@ -1,4 +1,4 @@
-import { uploadFile } from "./aws";
+import * as s3 from "./aws";
 import connection from "./db";
 
-export { connection, uploadFile };
+export { connection, s3 };

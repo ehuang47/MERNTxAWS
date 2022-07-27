@@ -35,11 +35,13 @@ export default function ProfileCard({ id, updateSelected }: Props): JSX.Element 
 			</div>
 		);
 
+	// profile = data:${content-type};base64,${converted buffer}
 	return (
 		<div>
 			<button onClick={toggleSelected}>{selected ? "Unselect" : "Select"}</button>
 			<button onClick={toggleEditing}>Edit</button>
 			<button onClick={deleteProfile}>Delete</button>
+
 			<img
 				style={{ width: "50%", height: "50%" }}
 				src={profile.profile as string}

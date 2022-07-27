@@ -30,7 +30,7 @@ export const getProfiles = () => async (dispatch: TypedDispatch) => {
 
 export const addProfile = (payload: FormData) => async (dispatch: TypedDispatch) => {
   dispatch(createAction(LOADING, "Adding user profile."));
-  Array.from(payload.values()).forEach((val) => console.log(val));
+  // Array.from(payload.values()).forEach((val) => console.log(val));
 
   const res: object & any = await axios.post(`${SERVER_URL}/user/profiles`, payload);
   dispatchAfterRequest(res, dispatch, ADD_PROFILE, null, "We encountered an issue while adding the user profile.");
