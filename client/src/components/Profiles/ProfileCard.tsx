@@ -1,9 +1,13 @@
-import { UserPayload } from "../../types";
+import type { UserPayload } from "types";
 import { useState } from "react";
-import { profileActions } from "../../redux/actions";
-import { UPDATE_PROFILE } from "../../redux/constant";
 import AddProfile from "./AddProfile";
-import { TypedDispatch, useTypedDispatch, useTypedSelector } from "../../redux/store";
+// redux
+// import { profileActions } from "redux/actions";
+// import { TypedDispatch, useTypedDispatch, useTypedSelector } from "redux/store";
+// RTK
+import type { TypedDispatch } from "rtk/store";
+import { useTypedDispatch, useTypedSelector } from "rtk/hooks";
+import { deleteProfiles } from "rtk/slices/profileThunk";
 interface Props {
 	id: string;
 	updateSelected: (selected: boolean, id: string) => void;
@@ -24,14 +28,15 @@ export default function ProfileCard({ id, updateSelected }: Props): JSX.Element 
 		setSelected((prev) => !prev);
 	};
 	const deleteProfile = (): void => {
-		dispatch(profileActions.deleteProfiles([id]));
+		// dispatch(profileActions.deleteProfiles([id]));
+		dispatch(deleteProfiles([id]));
 	};
 
 	if (editing)
 		return (
 			<div>
 				<button onClick={toggleEditing}>Back</button>
-				<AddProfile actionType={UPDATE_PROFILE} profileID={id} />
+				<AddProfile profileID={id} />
 			</div>
 		);
 

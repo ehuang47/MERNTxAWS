@@ -1,7 +1,7 @@
 import profiles from "./profilesReducer";
 import { combineReducers } from "redux";
-import { DELETE_SESSION } from "../constant";
-import { ReduxAction } from "../../types";
+import { DELETE_SESSION } from "redux/constant";
+import { ReduxAction } from "types";
 
 const reducers = combineReducers({ profiles });
 

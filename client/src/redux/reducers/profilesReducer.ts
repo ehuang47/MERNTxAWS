@@ -1,6 +1,6 @@
-import { ReduxAction } from "../../types";
-import { LOADING, SUCCESS, ERROR } from "../constant";
-import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILES } from "../constant";
+import { ReduxAction } from "types";
+import { LOADING, SUCCESS, ERROR } from "redux/constant";
+import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILES } from "redux/constant";
 
 const defaultRequest = {
   loading: false,

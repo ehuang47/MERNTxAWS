@@ -1,8 +1,8 @@
-import { LOADING, SUCCESS, ERROR } from "../constant";
-import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILES } from "../constant";
+import { LOADING, SUCCESS, ERROR } from "redux/constant";
+import { GET_PROFILES, ADD_PROFILE, UPDATE_PROFILE, DELETE_PROFILES } from "redux/constant";
 import axios from "axios";
-import { TypedDispatch } from "../store";
-// import { UserInterface, UserPayload } from "../../types";
+import { TypedDispatch } from "redux/store";
+// import { UserInterface, UserPayload } from "types";
 
 const createAction = (type: string, payload: any) => ({ type, payload });
 const { REACT_APP_SERVER_URL: SERVER_URL } = process.env;
@@ -13,8 +13,8 @@ const dispatchAfterRequest = (res: object & any, dispatch: TypedDispatch, action
   const { success, message, data, error } = res.data;
   if (success) {
     console.log(data, message);
-    dispatch(createAction(SUCCESS, message));
     dispatch(createAction(actionType, dispatchData ? dispatchData : data));
+    dispatch(createAction(SUCCESS, message));
   } else {
     dispatch(createAction(ERROR, customErrorMsg));
     console.error(error);

@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 
 import ProfileCard from "./ProfileCard";
-import { profileActions } from "../../redux/actions";
-import { TypedDispatch, useTypedDispatch, useTypedSelector } from "../../redux/store";
+
+// redux
+// import { profileActions } from "redux/actions";
+// import { TypedDispatch, useTypedDispatch, useTypedSelector } from "redux/store";
+
+// RTK
+import type { TypedDispatch } from "rtk/store";
+import { useTypedDispatch, useTypedSelector } from "rtk/hooks";
+import { getProfiles, deleteProfiles } from "rtk/slices/profileThunk";
 
 export default function ProfileList(): JSX.Element {
 	const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
@@ -19,8 +26,9 @@ export default function ProfileList(): JSX.Element {
 	const dispatch: TypedDispatch = useTypedDispatch();
 
 	useEffect(() => {
-		dispatch(profileActions.getProfiles());
-	}, []);
+		// dispatch(profileActions.getProfiles());
+		dispatch(getProfiles({}));
+	}, [dispatch]);
 
 	const updateSelected = (selected: boolean, id: string): void => {
 		if (selected) setSelectedProfiles((prevSelected) => [...prevSelected, id]);
@@ -31,13 +39,13 @@ export default function ProfileList(): JSX.Element {
 	};
 
 	const removeAll = (): void => {
-		dispatch(profileActions.deleteProfiles(selectedProfiles));
-		setSelectedProfiles([]);
+		// dispatch(profileActions.deleteProfiles(selectedProfiles)).then(() => setSelectedProfiles([]));
+		dispatch(deleteProfiles(selectedProfiles)).then(() => setSelectedProfiles([]));
 	};
 
 	// custom request notification
 	const banner = (
-		<p style={{ color: requestStatus.loading ? "yellow" : "red" }}>
+		<p style={{ color: requestStatus.loading ? "purple" : "red" }}>
 			{requestStatus.responseMsg}
 		</p>
 	);

@@ -8,14 +8,6 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-// s3.listObjects({ Bucket: process.env.AWS_BUCKET as string }, function (err, data) {
-//   if (err) {
-//     console.log("Error", err);
-//   } else {
-//     console.log("Success", data);
-//   }
-// });
-
 export const createImgSrc = (contentType: string, buffer: Buffer) => `data:${contentType};base64,${buffer.toString("base64")}`;
 
 export const uploadFile = async (file: any, id: string): Promise<string> => {

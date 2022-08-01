@@ -1,13 +1,17 @@
-import { FormEventHandler, MouseEventHandler, useState } from "react";
-import { profileActions } from "../../redux/actions";
-// import { ADD_PROFILE } from "../../redux/constant";
-import { TypedDispatch, useTypedDispatch } from "../../redux/store";
+import type { FormEventHandler, MouseEventHandler } from "react";
+import { useState } from "react";
 
-// import { UserInterface } from "../../types";
-import { ReInputField } from "../Reusable";
+import { ReInputField } from "components/Reusable";
+// traditional redux
+// import { profileActions } from "redux/actions";
+// import { TypedDispatch, useTypedDispatch } from "redux/store";
+
+// RTK
+import type { TypedDispatch } from "rtk/store";
+import { useTypedDispatch } from "rtk/hooks";
+import { addProfile, updateProfile } from "rtk/slices/profileThunk";
 
 interface Props {
-	actionType: string;
 	profileID?: string;
 }
 
@@ -17,12 +21,13 @@ interface FormInputs {
 	email: { value: string; valid: boolean };
 	phone: { value: string; valid: boolean };
 }
-export default function AddProfile({ actionType, profileID }: Props): JSX.Element {
+export default function AddProfile({ profileID }: Props): JSX.Element {
+	// do: if profileID, load current values as initial state
 	const defaultInputs: FormInputs = {
-		profile: { value: "", previewUrl: "", name: "", valid: true },
-		name: { value: "", valid: true },
-		email: { value: "", valid: true },
-		phone: { value: "", valid: true },
+		profile: { value: "", previewUrl: "", name: "", valid: false },
+		name: { value: "", valid: false },
+		email: { value: "", valid: false },
+		phone: { value: "", valid: false },
 	};
 
 	const [inputs, setInputs] = useState<FormInputs>(defaultInputs);
@@ -76,22 +81,21 @@ export default function AddProfile({ actionType, profileID }: Props): JSX.Elemen
 		e.preventDefault();
 
 		if (Object.values(inputs).every(({ valid }) => valid)) {
-			// const payload: UserInterface = Object.entries(inputs).reduce((map, [k, v]) => {
-			// 	map[k] = v.value;
-			// 	return map;
-			// }, {} as object & any);
-
 			const formData: FormData = new FormData();
 			Object.entries(inputs).forEach(([k, v]) => formData.set(k, v.value));
 			if (profileID) formData.set("_id", profileID);
 
-			dispatch(
-				profileID
-					? profileActions.updateProfile(formData)
-					: profileActions.addProfile(formData)
-			);
+			// redux
+			// dispatch(
+			// 	profileID
+			// 		? profileActions.updateProfile(formData)
+			// 		: profileActions.addProfile(formData)
+			// ).then(()=>setInputs(defaultInputs));
 
-			// setInputs(defaultInputs);
+			// RTK
+			dispatch(profileID ? updateProfile(formData) : addProfile(formData)).then(() =>
+				setInputs(defaultInputs)
+			);
 		}
 	};
 

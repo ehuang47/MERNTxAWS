@@ -1,10 +1,10 @@
 import "./App.css";
-import { Profiles } from "./pages";
+import { Profiles } from "pages";
 
 // FCs will either return another FC (it's a HoC) or JSX element
 // type FC<Props extends {}> = (props: Props, context?: any) => FC<any> | JSX.Element;
 
-function App() {
+function App(): JSX.Element {
 	return (
 		<div className="App">
 			<Profiles />
